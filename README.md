@@ -76,3 +76,23 @@ of the USB-to-serial board of the FPGA Z80 SBC is plugged into the
 Linux computer.  I think the Efinix software gets confused by the
 presence of two FTDI devices in the system. Unplug the cable from the
 USB-to-serial board before attempting to program.
+
+## Minimal SBC Build
+
+This is a example of the minimum hardware that needs to be assembled
+for the FPGA Z80 SBC board for this MC-2G-1024 port to work. I started
+with all the resistors and capacitors and four of the resistor
+networks and added:
+
+  * the 5 volt and 3.3 volt regulators
+
+  * the T35 FPGA module
+
+  * the USB-to-serial board
+
+  * the parts needed for the board reset circuit (U1, U9 and reset
+    switch)
+
+  * an SD card module that uses SD_CS_A for its chip select
+
+![Minimal build](images/minimal_build.jpeg)
