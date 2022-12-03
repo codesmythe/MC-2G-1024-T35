@@ -65,10 +65,14 @@ have made from the original MC-2G-1024 files include:
   * Changing the Z80 ROM files from using an init HEX file to
     hardcoding the byte values directly in VHDL, for simplicity.
 
-You'll need to run `git submodule update` before compiling the code to pull in the MultiComp base code from an external repository.
+You'll need to run `git submodule init` followed by 
+`git submodule update` before compiling the code to pull in
+the MultiComp base code from an external repository.
 
 ## Note for using the Efinix programmer under Linux.
 
-I've noticed that the Efinix programmer software will fail under Linux of the 
-USB-to-serial board of the FPGA Z80 SBC is plugged into the Linux computer. 
-I think the Efinix software gets confused by the presence of two FTDI devices in the system. Unplug the cable from the USB-to-serial board before attempting to program.
+I've noticed that the Efinix programmer software will fail under Linux
+of the USB-to-serial board of the FPGA Z80 SBC is plugged into the
+Linux computer.  I think the Efinix software gets confused by the
+presence of two FTDI devices in the system. Unplug the cable from the
+USB-to-serial board before attempting to program.
