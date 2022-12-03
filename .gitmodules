@@ -1,0 +1,3 @@
+[submodule "Multicomp-Z80"]
+	path = Multicomp-Z80
+	url = https://github.com/DavidJRichards/Multicomp-Z80
