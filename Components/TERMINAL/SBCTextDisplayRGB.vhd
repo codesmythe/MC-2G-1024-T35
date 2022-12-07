@@ -74,13 +74,8 @@ entity SBCTextDisplayRGB is
 		sync				: out  std_logic;
 
 		-- Keyboard signals
-		ps2ClkIn    : in std_logic;
-		ps2ClkOut   : out std_logic;
-		ps2ClkOE    : out std_logic;
-
-		ps2DataIn  : in std_logic;
-		ps2DataOut : out std_logic;
-		ps2DataOE  : out std_logic
+		ps2ClkIn			: in std_logic;
+		ps2DataIn			: in std_logic
  );
 end SBCTextDisplayRGB;
 
@@ -207,8 +202,9 @@ constant CHARS_PER_SCREEN			: integer := HORIZ_CHARS*VERT_CHARS;
 	signal	ps2Num					: std_logic := '0';
 	signal	ps2Scroll				: std_logic := '0';
 
---	signal	ps2DataOut				: std_logic := '1';
---	signal	ps2ClkOut				: std_logic := '1';
+	signal	ps2DataOut				: std_logic := '1';
+	signal	ps2ClkOut				: std_logic := '1';
+
 	signal	n_kbWR					: std_logic := '1';
 	signal	kbWRParity				: std_logic := '0';
 	
@@ -560,11 +556,11 @@ end generate GEN_NO_ATTRAM;
 
 
 	-- PROCESS DATA FROM PS2 KEYBOARD
+
+	-- Removed, as FPGA Z80 SBC only supports PS/2 input, not bidirectional.
+
 	--ps2Data <= ps2DataOut when ps2DataOut='0' else 'Z';
 	--ps2Clk <= ps2ClkOut when ps2ClkOut='0' else 'Z';
-
-    ps2DataOE <= not ps2DataOut;
-	ps2ClkOE  <= not ps2ClkOut;
 
 	-- PS2 clock de-glitcher - important because the FPGA is very sensistive
 	-- Filtered clock will not switch low to high until there is 50 more high samples than lows

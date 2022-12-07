@@ -46,12 +46,7 @@ entity Microcomputer is
 		vSync			: out std_logic;
 
 		ps2ClkIn		: in std_logic;
-		ps2ClkOut		: out std_logic;
-		ps2ClkOE		: out std_logic;
-
 		ps2DataIn		: in std_logic;
-		ps2DataOut		: out std_logic;
-		ps2DataOE		: out std_logic;
 
 		sdCS			: out std_logic;
 		sdMOSI			: out std_logic;
@@ -259,13 +254,7 @@ begin
 	dataOut => interface2DataOut,
 	
 	ps2ClkIn  => ps2ClkIn,
-	ps2ClkOut => ps2ClkOut,
-	ps2ClkOE  => ps2ClkOE,
-
-	ps2DataIn  => ps2DataIn,
-	ps2DataOut => ps2DataOut,
-	ps2DataOE  => ps2DataOE
-
+	ps2DataIn  => ps2DataIn
     );
 
 	io3 : entity work.bufferedUART
