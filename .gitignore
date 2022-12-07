@@ -4,4 +4,9 @@
 */work_syn
 */.lock
 */*.vdb
+*/efinity_dbg.jtag.log
+*/*.gtkw
+*/*.vcd
+*/work_dbg
+
 
