@@ -28,11 +28,6 @@ entity Microcomputer is
 		rts1			: out std_logic;
 --		cts1			: in std_logic;
 
-		rxd3			: in std_logic;
-		txd3			: out std_logic;
-		rts3			: out std_logic;
-		cts3			: in std_logic;
-
 		videoR0			: out std_logic;
 		videoG0			: out std_logic;
 		videoB0			: out std_logic;
@@ -97,14 +92,6 @@ architecture struct of Microcomputer is
 	signal interface2DataOut		: std_logic_vector(7 downto 0);
 	signal n_int2					: std_logic := '1';
 	signal n_interface2CS			: std_logic := '1';
---	signal n_brg2					: std_logic := '1';
---	signal sClk2					: std_logic;
-
-	signal interface3DataOut		: std_logic_vector(7 downto 0);
-	signal n_int3					: std_logic := '1';
-	signal n_interface3CS			: std_logic := '1';
-	signal n_brg3					: std_logic := '1';
-	signal sClk3					: std_logic;
 
 	signal sdCardDataOut			: std_logic_vector(7 downto 0);
 	signal n_sdCardCS				: std_logic := '1';
@@ -257,34 +244,6 @@ begin
 	ps2DataIn  => ps2DataIn
     );
 
-	io3 : entity work.bufferedUART
-	port map(
-		clk 		=> clk,
-		n_wr 		=> n_interface3CS or n_ioWR,
-		n_rd 		=> n_interface3CS or n_ioRD,
-		n_int 	=> n_int3,
-		regSel 	=> cpuAddress(0),
-		dataIn 	=> cpuDataOut,
-		dataOut 	=> interface3DataOut,
-		rxClock 	=> sClk3,
-		txClock 	=> sClk3,
-		rxd 		=> rxd3,
-		txd 		=> txd3,
-		n_cts		=> '0',
-		n_dcd 	=> '0',
-		n_rts 	=> rts3
-	);
-
-	brg3 : entity work.brg
-	port map(
-		clk      => clk,
-		n_reset  => n_reset,
-		baud_clk => sClk3, 
-		n_wr 		=> n_ioWR,
-		n_cs 		=> n_brg3,
-		dataIn 	=> cpuDataOut
-	);
-
 	sd1 : entity work.sd_controller 
 	port map(
 		sdCS 		=> sdCS,
@@ -311,10 +270,8 @@ begin
 -- CHIP SELECTS GO HERE
 	n_monRomCS 		<= '0' when cpuAddress(15 downto 11) = "00000" and n_RomActive = '0' else '1'; 					-- 2K low memory
 	n_brg1 			<= '0' when cpuAddress(7 downto 0) = "01111011" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 1 Byte 	$7B
-	n_brg3 			<= '0' when cpuAddress(7 downto 0) = "01111101" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 1 Byte 	$7D
 	n_interface1CS <= '0' when cpuAddress(7 downto 1) = "1000000" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 2 Bytes 	$80-$81
 	n_interface2CS <= '0' when cpuAddress(7 downto 1) = "1000001" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 2 Bytes 	$82-$83
-	n_interface3CS <= '0' when cpuAddress(7 downto 1) = "1000010" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 	-- 2 Bytes 	$84-$85
 	n_sdCardCS 		<= '0' when cpuAddress(7 downto 3) = "10001" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 		-- 8 Bytes 	$88-$8F
 	n_mmuCS 			<= '0' when cpuAddress(7 downto 3) = "11111" and (n_ioWR = '0' or n_ioRD = '0') else '1'; 		-- 8 bytes 	$F8-$FF
     n_internalRam1CS <= not(n_monRomCS);
@@ -323,7 +280,6 @@ begin
 	cpuDataIn <=
 		interface1DataOut when n_interface1CS = '0' else
 		interface2DataOut when n_interface2CS = '0' else
-		interface3DataOut when n_interface3CS = '0' else
 		sdCardDataOut when n_sdCardCS = '0' else
 		monRomData when n_monRomCS = '0' else
 		internalRam1DataOut when n_internalRam1CS = '0' else
